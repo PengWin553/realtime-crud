@@ -1,0 +1,111 @@
+/* Container for the form */
+.form_parent_container {
+    margin: 0 auto;
+    padding: 1rem; /* 20px / 16px */
+    border-radius: 0.625rem; /* 10px / 16px */
+    margin-top: 0.3rem;
+    /* background: green; */
+}
+
+/* Form title */
+.input-page-title {
+    display: inline-block;
+    height: 100%;
+    color: var(--sidebar-text-color);
+    padding-left: 0.8rem;
+    font-size: 1rem; /* 20px */
+    font-weight: 700;
+    /* text-align: center; */
+}
+
+/* Form container */
+.form_container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem; /* 15px / 16px */
+}
+
+/* Input container */
+.input_container {
+    position: relative;
+    /* background: yellow; */
+}
+
+/* Input label */
+.input_label {
+    font-size: 0.9rem; /* 12px / 16px */
+    color: #333;
+    margin-bottom: 0.3125rem; /* 5px / 16px */
+    display: block;
+    font-weight: 600;
+}
+
+/* Input field */
+.input_field {
+    width: 100%;
+    padding: 0.5rem; /* Adjusted padding */
+    border: none;
+    border-bottom: 1px solid var(--sidebar-text-color); /* Default bottom border */
+    font-size: 1rem; /* 14px / 16px */
+    color: #333;
+    background: var(--main-bg-color);
+    outline: none; /* Remove default focus outline */
+    margin-top: -0.8rem;
+}
+
+/* Input field focus */
+.input_field:focus {
+    border-bottom: 1px solid rgb(27, 66, 221); /* Highlighted bottom border */
+}
+
+/* Button group container */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.25rem; /* 20px / 16px */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) { /* Adjust based on your design needs */
+    .title {
+        font-size: 1.25rem; /* Adjusted font size */
+    }
+    
+    .input_label {
+        font-size: 0.8rem; /* Adjusted font size */
+    }
+
+    .input_field {
+        padding: 0.5rem; /* Adjusted padding */
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 0.8rem; /* Adjusted gap */
+    }
+}
+
+/* Top container */
+.top-container {
+    position: relative;
+    background-color: var(--main-bg-color);
+    z-index: 10000;
+    overflow: hidden; /* Hide any overflow content */
+    display: flex;
+    align-items: center;
+}
+
+/* Save icon */
+.bx-save, .bx-cart {
+    font-size: 1.3rem;
+    color: var(--sidebar-text-color);
+    margin-left: auto; /* Push the icon to the right */
+    margin-right: 1.25rem;
+}
+
+/* Back arrow icon */
+.bx-arrow-back {
+    font-size: 1.5rem;
+    color: var(--sidebar-text-color);
+    margin-left: 1.25rem;
+}
