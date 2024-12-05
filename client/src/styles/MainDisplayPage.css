@@ -1,0 +1,413 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.item-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0.6rem;
+    width: 100%;
+    /* background: yellow; */
+}
+
+.item-item {
+    position: relative;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 0.6rem;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    margin-bottom: 0.8rem; /* Reduced from 1rem */
+}
+
+.item-item:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.item-info {
+    cursor: pointer;
+    padding: 0.1rem;
+    padding-left: 0.3rem;
+}
+
+.item-info h4 {
+    margin: 0;
+    color: var(--sidebar-text-strong-color);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.item-info p {
+    margin: 0.1rem 0 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.options-icon{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: var(--sidebar-text-color);
+    background: yellow;
+    height: 0rem;
+}
+
+.bx-trash, .bx-play{
+    position: absolute;
+    top: 35%;
+    right: 10px;
+    cursor: pointer;
+    color: var(--sidebar-text-strong-color);
+    font-size: 1.25rem;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 2.2rem;
+    right: 10px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 10;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 6px 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    color: var(--sidebar-text-color);
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-item:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.dropdown-item:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Floating Action Button (FAB) */
+.fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: #7c86b8;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2.8rem;
+    height: 2.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.6rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fab:hover {
+    background-color: #6675b6;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Main content container styling for mobile view */
+.main-content-container {
+    height: calc(100vh - 3rem); /* Adjust height if needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-top: 0.8rem;
+}
+
+/* Optional: Style for scrollbar */
+.main-content-container::-webkit-scrollbar {
+    width: 3px; /* Width of the scrollbar */
+}
+
+.main-content-container::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar */
+    border-radius: 4px; /* Rounded corners of the scrollbar */
+}
+
+.main-content-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color when hovering over the scrollbar */
+}
+
+.error-message {
+    color: #d74d4d;
+    font-size: 0.85rem;
+}
+
+.very-small-text{
+    font-weight: 240;
+}
+
+.item-expired {
+    background: #e6e6e6; /* Light red for expired items */
+}
+
+.item-warning {
+    background: #FFFF99; /* Light yellow for items past half-life */
+}
+
+.item-warning-yellow {
+    background: #fbfbb0; /* or another shade of yellow you prefer */
+    color: black; /* Adjust text color for readability */
+}
+
+
+.item-disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.item-disabled * {
+    color: #999 !important;
+}
+
+.item-disabled .item-info:hover {
+    cursor: not-allowed;
+}
+
+.item-disabled .action-icon {
+    display: none;
+}
+
+.item-item.in-use {
+    background-color: #fceedb
+}
+
+.item-item.depleted {
+    background-color: #e4ceaf;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.quantity-adjustment{
+    width: 5.45rem;
+    font-size: 1.25rem;
+    padding: 0.35rem;
+}
+
+.pos-item{
+    display: flex;
+    justify-content: space-between;
+}
+
+.child-quantity-adjustment{
+    margin-top: 12.5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.quantity-button{
+    border: none;
+    padding: 0.45rem;
+    font-size: 1.25rem;
+    border-radius: 20px;
+}
+
+.quantity-input-box{
+    width: 1.5rem;
+    height: 1.7rem;
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid darkslateblue;
+    text-align: center;
+    color: var(--sidebar-text-strong-color);
+}
+
+.bx-quantity-change{
+    padding: 0.2rem;
+    color: rgb(79, 71, 128);
+}
+
+.title-with-icon-on-right-screen{
+    width: 100%;
+}
+
+.save-product-icon{
+    float: right;
+    color: #fde6bc;
+    margin-top: -0.25rem;
+}
+
+.item-item.low-stock {
+    background-color: #ffcccc;
+}
+
+.expiring-soon {
+    background-color: #ffcccc; /* Light red background */
+}
+
+/* Base class for each product item */
+.item-item {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+/* Highlight for expiring products */
+.item-item.expiring {
+    background-color: rgba(255, 0, 0, 0.1); /* Light red background */
+    border: 1px solid rgba(255, 0, 0, 0.5); /* Red border */
+    color: red; /* Red text */
+}
+
+/* Styles for depleted products */
+.item-item.depleted {
+    background-color: lightgray;
+    color: gray;
+}
+
+/* Styles for products in use (partially used) */
+.item-item.in-use {
+    background-color: #ffed99; /* Light yellow background */
+}
+
+.search-icon{
+    font-size: 1.25rem;
+}
+
+.labelforsearch{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-data-message {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+    margin-top: 20px;
+}
+
+.recipe-list-container{
+    /* background: pink; */
+    padding: 1rem;
+}
+
+.add-ingredient-btn{
+    background-color: #7c86b8;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s 
+}
+
+.add-ingredient-btn-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.ingredients-label{
+    font-size: 1rem;
+    padding-top: 0.6rem;
+}
+
+.quantity-input{
+    background: yellow;
+}
+
+.input-row-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgb(123, 123, 123);
+    height: 3.5rem;
+    padding-left: 0.4rem;
+    padding-right: 0.6rem;
+    padding-top: 0.6rem;
+    border-radius: 5px;
+}
+
+.quantity-input{
+    width: 2rem;
+}
+
+.recipe-ingredient-input{
+    font-size: 1rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+}
+
+.remove-ingredient-btn{
+    background: #ec955b;
+    border: none;
+    border-radius: 5px;
+    padding: 0.3rem 0.6rem;
+    margin-top: 0.3rem;
+    color: white;
+}
+
+.use-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.use-button:hover {
+    background-color: #45a049;
+}
+
+.used-item {
+    opacity: 0.5;
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+
+.used-item .item-info {
+    cursor: default;
+}
+
+.used-item h4,
+.used-item p {
+    color: #888;
+}
+
+.use-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.use-button:hover {
+    background-color: #45a049;
+}

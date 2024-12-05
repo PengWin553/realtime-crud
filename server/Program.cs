@@ -4,7 +4,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -13,36 +12,44 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSignalR();
 
 // Add Cors
-builder.Services.AddCors(option => {
-    option.AddDefaultPolicy(builder => {
-        builder
-            .AllowAnyOrigin()
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ReactClientPolicy", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:5173",   // React development server
+                "https://localhost:5173"   // HTTPS version
+            )
             .AllowAnyHeader()
             .AllowAnyMethod()
-            // If you're using SignalR, you might want to use more specific CORS settings
-            .SetIsOriginAllowed(_ => true); // Be cautious with this in production
+            .AllowCredentials();
     });
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-// Add these lines for SignalR
-app.UseCors();
+// IMPORTANT: Middleware order matters
 app.UseRouting();
+
+// Add CORS before Authorization
+app.UseCors("ReactClientPolicy");
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-// Map SignalR hub
-app.MapHub<ProductHub>("/producthub");
+// Map SignalR hub with CORS policy
+app.MapHub<ProductHub>("/producthub")
+   .RequireCors("ReactClientPolicy");
 
 app.Run();
