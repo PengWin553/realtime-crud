@@ -1,20 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Dapper;
 using MySql.Data.MySqlClient;
+using server.Hubs;
 
-namespace shelfaware_back.Controllers
+namespace server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class ProductsApiController : ControllerBase
     {
-        private readonly string _connectionString = string.Empty;
+        private readonly string _connectionString;
+        private readonly IHubContext<ProductHub> _hubContext;
 
-        public ProductsApiController(IConfiguration configuration)
+        public ProductsApiController(
+            IConfiguration configuration, 
+            IHubContext<ProductHub> hubContext)
         {
             // Use null-coalescing to ensure _connectionString is never null
             _connectionString = configuration.GetConnectionString("DefaultConnection") 
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+            _hubContext = hubContext;
         }
 
         // Get all products with additional details
@@ -102,7 +108,12 @@ namespace shelfaware_back.Controllers
             product.UpdatedAt = DateTime.Now;
 
             var result = await connection.QueryAsync<Product>(query, product);
-            return Ok(result.First());
+            var savedProduct = result.First();
+
+            // Notify all clients about the new product
+            await _hubContext.Clients.All.SendAsync("ReceiveProductAdded", savedProduct);
+
+            return Ok(savedProduct);
         }
 
         // Update an existing product
@@ -140,7 +151,12 @@ namespace shelfaware_back.Controllers
             if (!result.Any())
                 return NotFound("Product not found");
 
-            return Ok(result.First());
+            var updatedProduct = result.First();
+
+            // Notify all clients about the updated product
+            await _hubContext.Clients.All.SendAsync("ReceiveProductUpdated", updatedProduct);
+
+            return Ok(updatedProduct);
         }
 
         // Delete a product
@@ -164,6 +180,10 @@ namespace shelfaware_back.Controllers
                 DELETE FROM Products WHERE ProdId = @ProdId;";
 
             await connection.ExecuteAsync(deleteQuery, new { ProdId = id });
+
+            // Notify all clients about the deleted product
+            await _hubContext.Clients.All.SendAsync("ReceiveProductDeleted", id);
+
             return Ok("Product successfully deleted");
         }
     }
