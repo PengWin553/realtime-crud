@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "U94VlfOofE8=",
+  "dgSpecHash": "EyHMY+IsUXM=",
   "success": true,
   "projectFilePath": "C:\\Users\\SECCA\\Documents\\2024 Systems\\realtime-crud\\server\\server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\SECCA\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
+    "C:\\Users\\SECCA\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
     "C:\\Users\\SECCA\\.nuget\\packages\\google.protobuf\\3.26.1\\google.protobuf.3.26.1.nupkg.sha512",
     "C:\\Users\\SECCA\\.nuget\\packages\\k4os.compression.lz4\\1.3.8\\k4os.compression.lz4.1.3.8.nupkg.sha512",
     "C:\\Users\\SECCA\\.nuget\\packages\\k4os.compression.lz4.streams\\1.3.8\\k4os.compression.lz4.streams.1.3.8.nupkg.sha512",

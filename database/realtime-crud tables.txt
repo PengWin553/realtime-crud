@@ -1,0 +1,28 @@
+Products:
+    ProdId 
+    ProdName
+    ProdDescription
+    ProdPrice
+    ProdOverallStock
+    ProdMinStockLevel
+    CreatedAt
+    UpdatedAt
+
+ProductsIn:                                     //where stocking in and discarding spoiled products take place
+    ProdInId
+    ProdId
+    ProdStock
+    ProdRejectStock
+    ProdRemainingStock
+    ProdDiscarded
+    ProdTotalLosses
+    ProdExpiryDate
+    CreatedAt
+    UpdatedAt
+
+ProductsOut:                                     //where the POS-like feature takes place
+    ProdOutId 
+    ProdInId
+    ProdId
+    ProdSold
+    ProdTotalRevenue
