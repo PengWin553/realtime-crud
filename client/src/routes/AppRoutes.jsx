@@ -8,6 +8,7 @@ import UpdateProduct from "../pages/logged-in/Dashboard/UpdateProduct";
 // ProductsIn folder
 import ProductsIn from "../pages/logged-in/ProductsIn/ProductsIn";
 import AddProductStock from "../pages/logged-in/ProductsIn/AddProductStock";
+import UpdateProductStock from "../pages/logged-in/ProductsIn/UpdateProductStock";
 
 const AppRoutes = () => {
     return (
@@ -18,6 +19,7 @@ const AppRoutes = () => {
 
             <Route path="/products-in" element={<ProductsIn />} />
             <Route path="/add-product-stock" element={<AddProductStock />} />
+            <Route path="/update-product-stock/:id" element={<UpdateProductStock />} />
         </Routes>
     );
 }
