@@ -17,7 +17,6 @@ namespace server.Controllers
             IConfiguration configuration,
             IHubContext<ProductHub> hubContext)
         {
-            // Use null-coalescing to ensure _connectionString is never null
             _connectionString = configuration.GetConnectionString("DefaultConnection")
                 ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             _hubContext = hubContext;
@@ -203,7 +202,7 @@ namespace server.Controllers
             return Ok(updatedStock);
         }
 
-        // Delete a stock entry
+        // Delete an existing stock entry
         [HttpDelete("DeleteStockOfProduct/{id}")]
         public async Task<IActionResult> DeleteStockOfProduct(int id)
         {
@@ -211,10 +210,10 @@ namespace server.Controllers
             await connection.OpenAsync();
 
             const string getCurrentStockQuery = @"
-                SELECT pi.ProdId, pi.ProdRemainingStock, p.ProdName 
-                FROM ProductsIn pi
-                JOIN Products p ON pi.ProdId = p.ProdId
-                WHERE pi.ProdInId = @prodInId";
+        SELECT pi.ProdId, pi.ProdRemainingStock, p.ProdName 
+        FROM ProductsIn pi
+        JOIN Products p ON pi.ProdId = p.ProdId
+        WHERE pi.ProdInId = @prodInId";
             var stockRecord = await connection.QueryFirstOrDefaultAsync<dynamic>(getCurrentStockQuery, new { prodInId = id });
 
             if (stockRecord == null)
@@ -223,10 +222,10 @@ namespace server.Controllers
             }
 
             const string updateProductStockQuery = @"
-                UPDATE Products
-                SET ProdOverallStock = ProdOverallStock - @ProdRemainingStock
-                WHERE ProdId = @ProdId;
-            ";
+        UPDATE Products
+        SET ProdOverallStock = ProdOverallStock - @ProdRemainingStock
+        WHERE ProdId = @ProdId;
+    ";
 
             await connection.ExecuteAsync(updateProductStockQuery, new { ProdId = stockRecord.ProdId, ProdRemainingStock = stockRecord.ProdRemainingStock });
 
@@ -236,18 +235,18 @@ namespace server.Controllers
             const string deleteQuery = "DELETE FROM ProductsIn WHERE ProdInId = @prodInId";
             await connection.ExecuteAsync(deleteQuery, new { prodInId = id });
 
-            // Notify all clients about the deleted stock entry
+            // Explicitly use camelCase to match React conventions
             await _hubContext.Clients.All.SendAsync("ReceiveStockDeleted", new
             {
-                ProdInId = id,
-                ProdId = stockRecord.ProdId,
-                ProdName = stockRecord.ProdName
+                prodInId = id,
+                prodId = stockRecord.ProdId,
+                prodName = stockRecord.ProdName
             });
 
             return Ok();
         }
 
-        // Discard a specific stock
+        // Discard stock of an existing stock entry
         [HttpPost("DiscardStock")]
         public async Task<IActionResult> DiscardStock(int prodInId, int discardAmount)
         {
@@ -255,10 +254,10 @@ namespace server.Controllers
             await connection.OpenAsync();
 
             const string getCurrentStockQuery = @"
-                SELECT pi.*, p.ProdPrice, p.ProdName
-                FROM ProductsIn pi
-                JOIN Products p ON pi.ProdId = p.ProdId
-                WHERE pi.ProdInId = @ProdInId";
+        SELECT pi.*, p.ProdPrice, p.ProdName
+        FROM ProductsIn pi
+        JOIN Products p ON pi.ProdId = p.ProdId
+        WHERE pi.ProdInId = @ProdInId";
 
             var currentStock = await connection.QueryFirstOrDefaultAsync<dynamic>(getCurrentStockQuery, new { ProdInId = prodInId });
 
@@ -277,12 +276,12 @@ namespace server.Controllers
             var additionalLosses = discardAmount * currentStock.ProdPrice;
 
             const string updateProductInQuery = @"
-                UPDATE ProductsIn
-                SET ProdRemainingStock = @ProdRemainingStock,
-                    ProdDiscarded = @ProdDiscarded,
-                    ProdTotalLosses = ProdTotalLosses + @AdditionalLosses,
-                    UpdatedAt = UTC_TIMESTAMP()
-                WHERE ProdInId = @ProdInId";
+        UPDATE ProductsIn
+        SET ProdRemainingStock = @ProdRemainingStock,
+            ProdDiscarded = @ProdDiscarded,
+            ProdTotalLosses = ProdTotalLosses + @AdditionalLosses,
+            UpdatedAt = UTC_TIMESTAMP()
+        WHERE ProdInId = @ProdInId";
 
             await connection.ExecuteAsync(updateProductInQuery, new
             {
@@ -293,9 +292,9 @@ namespace server.Controllers
             });
 
             const string updateProductQuery = @"
-                UPDATE Products
-                SET ProdOverallStock = ProdOverallStock - @DiscardAmount
-                WHERE ProdId = @ProdId";
+        UPDATE Products
+        SET ProdOverallStock = ProdOverallStock - @DiscardAmount
+        WHERE ProdId = @ProdId";
 
             await connection.ExecuteAsync(updateProductQuery, new
             {
@@ -305,25 +304,25 @@ namespace server.Controllers
 
             // Fetch the updated stock entry with product name
             const string getUpdatedStockQuery = @"
-                SELECT 
-                    pi.*, 
-                    p.ProdName
-                FROM 
-                    ProductsIn pi
-                JOIN 
-                    Products p ON pi.ProdId = p.ProdId
-                WHERE 
-                    pi.ProdInId = @ProdInId";
+        SELECT 
+            pi.*, 
+            p.ProdName
+        FROM 
+            ProductsIn pi
+        JOIN 
+            Products p ON pi.ProdId = p.ProdId
+        WHERE 
+            pi.ProdInId = @ProdInId";
             var updatedStock = await connection.QueryFirstAsync<ProductIn>(getUpdatedStockQuery, new { ProdInId = prodInId });
 
-            // Notify all clients about the discarded stock
+            // Use camelCase to match React conventions
             await _hubContext.Clients.All.SendAsync("ReceiveStockDiscarded", new
             {
-                ProdInId = prodInId,
-                ProdId = currentStock.ProdId,
-                ProdName = currentStock.ProdName,
-                DiscardAmount = discardAmount,
-                UpdatedStock = updatedStock
+                prodInId = prodInId,
+                prodId = currentStock.ProdId,
+                prodName = currentStock.ProdName,
+                discardAmount = discardAmount,
+                updatedStock = updatedStock
             });
 
             return Ok(updatedStock);
