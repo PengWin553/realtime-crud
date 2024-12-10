@@ -37,10 +37,18 @@ const Sidebar = () => {
 
   return (
     <>
+      {/* Dark overlay when sidebar is open */}
+      {!isSidebarClosed && (
+        <div 
+          className="sidebar-overlay"
+          onClick={toggleSidebar}
+        />
+      )}
+
       <div ref={sidebarRef} className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
         <div className="logo-details">
           <i className='bx bx-baguette shelfaware-icon'></i>
-          <span className="logo_name">ShelfAware</span>
+          <span className="logo_name">Realtime CRUD</span>
         </div>
         <ul className="nav-links">
           {navLinks.map((link, index) => (

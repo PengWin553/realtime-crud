@@ -251,5 +251,14 @@
     z-index: 101;
     border-radius: 50%;
     background: var(--main-bg-color); /* Match background to prevent overlap issues */
-    
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark transparent screen */
+    z-index: 99; /* Ensure it's below the sidebar but above other content */
   }
